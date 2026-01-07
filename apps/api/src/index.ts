@@ -5,6 +5,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth";
 import jobsRoutes from "./routes/jobs";
 import applicationsRoutes from "./routes/applications";
+import adminRoutes from "./routes/admin";
 
 // Load .env from root directory (hr-platform/.env)
 // This works whether running from apps/api or from root
@@ -41,6 +42,7 @@ app.get("/health", (_, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobsRoutes);
 app.use("/api/applications", applicationsRoutes);
+app.use("/api/admin", adminRoutes);
 
 const PORT = process.env.PORT || 4000;
 console.log("SUPABASE_URL:", process.env.SUPABASE_URL ? "Set" : "Missing");

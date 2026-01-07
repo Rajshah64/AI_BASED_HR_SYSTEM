@@ -30,6 +30,12 @@ export const applications = pgTable("applications", {
   screeningReport: jsonb("screening_report"), // Full AI screening report
   resumeText: text("resume_text"), // Extracted resume text
   resumeFileUrl: text("resume_file_url"), // Supabase Storage URL
+  interviewScheduledAt: timestamp("interview_scheduled_at"), // Interview scheduled timestamp
+  interviewLink: text("interview_link"), // Calendly link
+  offerSentAt: timestamp("offer_sent_at"), // Offer sent timestamp
+  offerDetails: jsonb("offer_details"), // Salary, start date, position, etc.
+  complianceCheckedAt: timestamp("compliance_checked_at"), // Compliance check timestamp
+  hiredAt: timestamp("hired_at"), // Hired timestamp
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -54,5 +60,15 @@ export const notifications = pgTable("notifications", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id").references(() => users.id),
   message: text("message"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+/* APPLICATION LOGS */
+export const applicationLogs = pgTable("application_logs", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  applicationId: uuid("application_id").references(() => applications.id),
+  action: varchar("action", { length: 100 }), // "screening", "shortlist", "schedule", "offer", "compliance"
+  performedBy: uuid("performed_by").references(() => users.id),
+  details: jsonb("details"), // AI response, user input, etc.
   createdAt: timestamp("created_at").defaultNow(),
 });

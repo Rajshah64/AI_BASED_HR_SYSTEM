@@ -20,7 +20,9 @@ export const authenticate = async (
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ error: "Missing or invalid authorization header" });
+      return res
+        .status(401)
+        .json({ error: "Missing or invalid authorization header" });
     }
 
     const token = authHeader.substring(7);
@@ -67,10 +69,17 @@ export const requireRole = (...allowedRoles: string[]) => {
     }
 
     if (!allowedRoles.includes(req.user.role)) {
-      return res.status(403).json({ error: "Forbidden: Insufficient permissions" });
+      console.error(
+        `Role mismatch: User ${req.user.email} has role "${req.user.role}", but required: ${allowedRoles.join(", ")}`
+      );
+      return res.status(403).json({
+        error: "Forbidden: Insufficient permissions",
+        message: `Required role: ${allowedRoles.join(" or ")}, but user has role: ${req.user.role}`,
+        userRole: req.user.role,
+        requiredRoles: allowedRoles,
+      });
     }
 
     next();
   };
 };
-

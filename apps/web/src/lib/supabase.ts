@@ -19,5 +19,19 @@ if (!supabaseUrl || !supabaseAnonKey) {
   );
 }
 
-// Client-side Supabase client
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Client-side Supabase client with proper configuration
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+  },
+  db: {
+    schema: "public",
+  },
+  global: {
+    headers: {
+      "x-client-info": "hr-platform-web",
+    },
+  },
+});

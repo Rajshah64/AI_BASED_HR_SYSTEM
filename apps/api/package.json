@@ -24,9 +24,12 @@
     "@repo/db": "*",
     "@repo/validators": "*",
     "@supabase/supabase-js": "^2.90.0",
+    "axios": "^1.13.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.45.1",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "form-data": "^4.0.5",
+    "node-fetch": "^2.7.0"
   }
 }
